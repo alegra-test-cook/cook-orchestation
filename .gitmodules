@@ -1,0 +1,12 @@
+[submodule "ms-warehouse"]
+	path = ms-warehouse
+	url = git@github.com:alegra-test-cook/ms-warehouse.git
+[submodule "ms-order-service"]
+	path = ms-order-service
+	url = git@github.com:alegra-test-cook/ms-order-service.git
+[submodule "ms-market"]
+	path = ms-market
+	url = git@github.com:alegra-test-cook/ms-market.git
+[submodule "ms-kitchen"]
+	path = ms-kitchen
+	url = git@github.com:alegra-test-cook/ms-kitchen.git
