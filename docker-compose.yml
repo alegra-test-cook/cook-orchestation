@@ -1,0 +1,68 @@
+version: '3.8'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  mongo:
+    image: mongo:5
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  ms-order-service:
+    build: ./ms-order-service
+    container_name: ms-order-service
+    depends_on:
+      - rabbitmq
+      - mongo
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq
+      - MONGO_URL=mongodb://mongo:27017/restaurant
+    ports:
+      - "3001:3001"
+
+  ms-kitchen:
+    build: ./ms-kitchen
+    container_name: ms-kitchen
+    depends_on:
+      - rabbitmq
+      - mongo
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq
+      - MONGO_URL=mongodb://mongo:27017/restaurant
+    ports:
+      - "3002:3002"
+
+  ms-warehouse:
+    build: ./ms-warehouse
+    container_name: ms-warehouse
+    depends_on:
+      - rabbitmq
+      - mongo
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq
+      - MONGO_URL=mongodb://mongo:27017/restaurant
+    ports:
+      - "3003:3003"
+
+  ms-market:
+    build: ./ms-market
+    container_name: ms-market
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq
+    ports:
+      - "3004:3004"
+
+volumes:
+  mongo_data:
