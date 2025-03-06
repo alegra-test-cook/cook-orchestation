@@ -1,0 +1,23 @@
+flowchart TD
+  subgraph OS [Order Service]
+    A["Order API (Recibe pedidos)"]
+  end
+
+  subgraph KS [Kitchen Service]
+    B["Selecciona Receta y Prepara Plato"]
+  end
+
+  subgraph WS [Warehouse Service]
+    C["Gestión de Inventario & Compras"]
+  end
+
+  subgraph MS [Market Service]
+    D["API Simulada de Mercado"]
+  end
+
+  A -- "Nuevo pedido (mensaje)" --> B
+  B -- "Solicitud de ingredientes (RPC)" --> C
+  C -- "Si stock insuficiente, solicita compra (RPC)" --> D
+  D -- "Respuesta de compra" --> C
+  C -- "Ingredientes disponibles (respuesta RPC)" --> B
+  B -- "Pedido finalizado (mensaje)" --> A
