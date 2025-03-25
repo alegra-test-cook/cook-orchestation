@@ -40,3 +40,33 @@ Clonar los repositorios
 # Correr contenedores
 
 ``docker-compose up --build``
+
+## Despliegue en AWS
+
+El proyecto ha sido desplegado en Amazon Web Services utilizando la siguiente configuración:
+
+- **Elastic Load Balancer (ELB):** Distribuye el tráfico entre las instancias EC2, proporcionando alta disponibilidad y balanceo de carga para la aplicación.
+
+- **Amazon Route 53:** Gestiona el DNS para enrutar el tráfico al balanceador de carga, permitiendo el acceso a través de un nombre de dominio fácil de recordar.
+
+- **Dominio:** La aplicación Backend está disponible en [sandboxtesting.info](https://sandboxtesting.info)
+
+- **Dominio:** La aplicación Frontend está disponible en https://magenta-bonbon-40d248.netlify.app/
+
+- **Instancias EC2:** Ejecutan los contenedores Docker con los microservicios en un entorno de Amazon Linux 2.
+
+- **VPC y Grupos de Seguridad:** Configurados para garantizar la seguridad y el acceso adecuado a los servicios.
+
+### Comandos útiles para gestionar el despliegue
+
+Para detener y limpiar completamente todos los recursos de Docker:
+
+```bash
+docker-compose down -v && docker volume rm $(docker volume ls -q) 2>/dev/null || true && docker system prune -a --force
+```
+
+Para reconstruir e iniciar los servicios:
+
+```bash
+docker-compose up --build -d
+```
